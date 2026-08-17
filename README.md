@@ -12,6 +12,6 @@ karicms 的 Homebrew tap。
 brew install karicms/tap/rename-draft
 ```
 
-安装时**不会**强制下载 Homebrew 的 Python；需要本机已有 `python3`。
+安装时会检测本机是否已有 `python3`：有则跳过，没有才自动安装 Homebrew 的 Python。
 
 项目主页：https://github.com/karicms/rename_draft

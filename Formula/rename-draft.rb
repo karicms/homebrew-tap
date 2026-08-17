@@ -5,21 +5,19 @@ class RenameDraft < Formula
   sha256 "dc6eb1e6a47f803456c85e5d13b2adb494b2d92fb9763e9b33f6a9e15f42af0c"
   license "MIT"
 
-  # 不依赖 Homebrew 的 python@3，避免强制下载一整套 Python。
-  # 运行时使用本机 PATH 上的 python3（#!/usr/bin/env python3）。
+  # 本机已有 python3 则跳过；没有才让 Homebrew 安装 python@3。
+  # （个人 tap 可用；官方 homebrew-core 一般不允许这种按机器状态的条件依赖。）
+  depends_on "python@3" unless which("python3")
 
   def install
-    unless which("python3")
-      opoo "未检测到 python3。仍会安装命令，但运行前请先自行安装 Python 3。"
-    end
     bin.install "rename_draft.py" => "rename-draft"
   end
 
   def caveats
     <<~EOS
-      rename-draft 使用本机已有的 python3，不会通过 Homebrew 自动安装 Python。
-      若运行时报找不到 python3，请先安装，例如：
-        brew install python
+      rename-draft 通过 #!/usr/bin/env python3 调用本机 PATH 上的 Python。
+      安装时若已检测到 python3，不会再通过 Homebrew 下载 Python；
+      若当时没有，则会自动安装依赖 python@3。
     EOS
   end
 
